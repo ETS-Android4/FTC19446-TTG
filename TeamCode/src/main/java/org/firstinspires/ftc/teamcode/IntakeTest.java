@@ -20,7 +20,11 @@ public class IntakeTest extends LinearOpMode {
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
         // run until the end of the match (driver presses STOP)
+        double tgtPower = 0;
         while (opModeIsActive()) {
+
+            motorTest.setPower(1);
+            telemetry.addData("Motor Power", motorTest.getPower());
             telemetry.addData("Status", "Running");
             telemetry.update();
         }
