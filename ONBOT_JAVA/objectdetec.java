@@ -34,7 +34,7 @@ public class StefanOpMode extends LinearOpMode {
     // Initialize Vuforia.
     vuforiaFreightFrenzy.initialize(
         "", // vuforiaLicenseKey
-        hardwareMap.get(WebcamName.class, "Webcam 1"), // cameraName
+        hardwareMap.get(WebcamName.class, "Webcam 1"), // Change this to the camera name, default "Webcam 1"
         "", // webcamCalibrationFilename
         true, // useExtendedTracking
         false, // enableCameraMonitoring
