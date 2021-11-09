@@ -10,17 +10,17 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 @TeleOp
 public class driverControlledV1 extends LinearOpMode {
     //this compiles on AS so use this exact process when defining motor objects
-    DcMotor motorLF = hardwareMap.dcMotor.get("motorFrontLeft");
+    /*DcMotor motorLF = hardwareMap.dcMotor.get("motorFrontLeft");
     DcMotor motorLB = hardwareMap.dcMotor.get("motorBackLeft");
     DcMotor motorRF = hardwareMap.dcMotor.get("motorFrontRight");
-    DcMotor motorRB = hardwareMap.dcMotor.get("MotorBackRight");
+    DcMotor motorRB = hardwareMap.dcMotor.get("MotorBackRight"); */
 
     //this don't compile on AS when it works on onBot...
-    /*
-    DcMotor motorLF = hardwareMap.get(motor.class, "motorFrontLeft");
-    DcMotor motorLB = hardwareMap.get(motor.class, "motorBackLeft");
-    DcMotor motorRF = hardwareMap.get(motor.class, "motorFrontRight");
-    DcMotor motorRB = hardwareMap.get(motor.class, "motorBackRight"); */
+
+    DcMotor motorLF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
+    DcMotor motorLB = hardwareMap.get(DcMotor.class, "motorBackLeft");
+    DcMotor motorRF = hardwareMap.get(DcMotor.class, "motorFrontRight");
+    DcMotor motorRB = hardwareMap.get(DcMotor.class, "motorBackRight");
     @Override
     public void runOpMode() {
 
@@ -28,8 +28,8 @@ public class driverControlledV1 extends LinearOpMode {
 
         if (isStopRequested()) return;
 
-        motorRB.setDirection(DcMotorSimple.Direction.REVERSE);
-        motorRF.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
 
         while (opModeIsActive()) {
             double y = -gamepad1.left_stick_y;
