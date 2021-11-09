@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@TeleOp
+@Autonomous
 public class example extends LinearOpMode{
     // variable names are Left/Right and Front/Back
     DcMotor LF;
@@ -30,9 +31,9 @@ public class example extends LinearOpMode{
 
     public void move(int LF, int RF, int LB, int RB, int sleepMS) {
         this.LF.setPower(LF);
-        this.RF.setPower(LF);
-        this.LB.setPower(LF);
-        this.RB.setPower(LF);
+        this.RF.setPower(LB);
+        this.LB.setPower(RF);
+        this.RB.setPower(RB);
         sleep(sleepMS);
     }
 
