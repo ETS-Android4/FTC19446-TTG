@@ -25,11 +25,11 @@ public class example extends LinearOpMode{
         waitForStart();
 
         // call move functions with hardcoded power and sleep values
-
+        move(0, 0, 0, 0, 0);
 
     }
 
-    public void move(int LF, int RF, int LB, int RB, int sleepMS) {
+    public void move(double LF, double RF, double LB, double RB, int sleepMS) {
         this.LF.setPower(LF);
         this.RF.setPower(LB);
         this.LB.setPower(RF);
