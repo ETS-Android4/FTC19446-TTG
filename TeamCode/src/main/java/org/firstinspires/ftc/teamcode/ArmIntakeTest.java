@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ArmIntakeTest extends LinearOpMode {
     private DcMotor LF, RF, LB, RB, Arm, Intake;
-    private Blinker expansion_Hub_2;
 
     public void runOpMode() {
         LF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
