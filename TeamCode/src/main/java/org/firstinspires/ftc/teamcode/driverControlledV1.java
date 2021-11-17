@@ -17,12 +17,12 @@ public class driverControlledV1 extends LinearOpMode {
 
     //this don't compile on AS when it works on onBot...
 
-    DcMotor motorLF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
-    DcMotor motorLB = hardwareMap.get(DcMotor.class, "motorBackLeft");
-    DcMotor motorRF = hardwareMap.get(DcMotor.class, "motorFrontRight");
-    DcMotor motorRB = hardwareMap.get(DcMotor.class, "motorBackRight");
     @Override
     public void runOpMode() {
+        DcMotor motorLF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
+        DcMotor motorLB = hardwareMap.get(DcMotor.class, "motorBackLeft");
+        DcMotor motorRF = hardwareMap.get(DcMotor.class, "motorFrontRight");
+        DcMotor motorRB = hardwareMap.get(DcMotor.class, "motorBackRight");
 
         waitForStart();
 
@@ -32,6 +32,7 @@ public class driverControlledV1 extends LinearOpMode {
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
 
         while (opModeIsActive()) {
+
             double y = -gamepad1.left_stick_y;
             double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
             double rx = gamepad1.right_stick_x;
