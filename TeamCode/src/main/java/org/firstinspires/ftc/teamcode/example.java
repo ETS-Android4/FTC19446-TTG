@@ -2,10 +2,6 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous
@@ -25,7 +21,9 @@ public class example extends LinearOpMode{
         waitForStart();
 
         // call move functions with hardcoded power and sleep values
-        move(0, 0, 0, 0, 0);
+
+        // *** DO NOT TURN - MOVE IN FRONT BACK, LEFT, RIGHT TO MAXIMIZE SPEED AND CONTROL ***
+        move(0, 0, 0, 0, 100);
 
     }
 

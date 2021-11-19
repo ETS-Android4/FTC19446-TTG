@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+
+
 //blah blah blah
 
 @TeleOp
@@ -23,7 +25,9 @@ public class driverControlledV2 extends LinearOpMode {
         DcMotor motorLB = hardwareMap.get(DcMotor.class, "motorBackLeft");
         DcMotor motorRF = hardwareMap.get(DcMotor.class, "motorFrontRight");
         DcMotor motorRB = hardwareMap.get(DcMotor.class, "motorBackRight");
-        DcMotor Arm = hardwareMap.get(DcMotor.class, "poggy");
+        DcMotor Intake = hardwareMap.get(DcMotor.class, "poggy");
+        DcMotor Arm = hardwareMap.get(DcMotor.class, "arm");
+        //DcMotor Carousel = hardwareMap.get(DcMotor.class, "carousel");
 
         waitForStart();
 
@@ -33,17 +37,32 @@ public class driverControlledV2 extends LinearOpMode {
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
 
         while (opModeIsActive()) {
-            if (gamepad1.a) {
-                Arm.setPower(-1);
-            } else if (gamepad1.b) {
-                Arm.setPower(1);
-            } else {
-                Arm.setPower(0);
+            double y, x, rx;
+
+            //carousel
+       //     if(gamepad2.right_bumper) {
+         //       Carousel.setPower(1);
+
+
+            //intake
+            Intake.setPower(gamepad2.right_stick_y);
+
+            //Arm
+            Arm.setPower(gamepad2.left_stick_y);
+
+            //halve speed
+            if (gamepad1.right_bumper) {
+                y = -gamepad1.left_stick_y / 2;
+                x = (gamepad1.left_stick_x * 1.1) / 2; // Counteract imperfect strafing
+                rx = gamepad1.right_stick_x / 2;
             }
 
-            double y = -gamepad1.left_stick_y;
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
+            //move speed
+            else {
+                y = -gamepad1.left_stick_y;
+                x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+                rx = gamepad1.right_stick_x;
+            }
 
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
@@ -60,7 +79,9 @@ public class driverControlledV2 extends LinearOpMode {
             telemetry.addData("LB Power:", motorLB.getPower());
             telemetry.addData("RF Power:", motorRF.getPower());
             telemetry.addData("RB Power:", motorRB.getPower());
-            telemetry.addData( "Intake Power:", Arm.getPower());
+            telemetry.addData( "Intake Power:", Intake.getPower());
+            telemetry.addData( "Arm Power: ", Arm.getPower());
+            // telemetry.addData("Carousel Turner", Carousel);
             telemetry.update();
         }
     }
