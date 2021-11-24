@@ -27,7 +27,7 @@ public class driverControlledV2 extends LinearOpMode {
         DcMotor motorRB = hardwareMap.get(DcMotor.class, "motorBackRight");
         DcMotor Intake = hardwareMap.get(DcMotor.class, "poggy");
         DcMotor Arm = hardwareMap.get(DcMotor.class, "arm");
-        //DcMotor Carousel = hardwareMap.get(DcMotor.class, "carousel");
+        DcMotor Carousel = hardwareMap.get(DcMotor.class, "Carousel");
 
         waitForStart();
 
@@ -40,9 +40,12 @@ public class driverControlledV2 extends LinearOpMode {
             double y, x, rx;
 
             //carousel
-       //     if(gamepad2.right_bumper) {
-         //       Carousel.setPower(1);
-
+            if(gamepad2.right_bumper) {
+                Carousel.setPower(1);
+            }
+            else {
+                Carousel.setPower(0);
+            }
 
             //intake
             Intake.setPower(gamepad2.right_stick_y);
@@ -81,7 +84,7 @@ public class driverControlledV2 extends LinearOpMode {
             telemetry.addData("RB Power:", motorRB.getPower());
             telemetry.addData( "Intake Power:", Intake.getPower());
             telemetry.addData( "Arm Power: ", Arm.getPower());
-            // telemetry.addData("Carousel Turner", Carousel);
+            telemetry.addData("Carousel Turner", Carousel.getPower());
             telemetry.update();
         }
     }
