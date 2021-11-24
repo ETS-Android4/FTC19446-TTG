@@ -49,7 +49,6 @@ public class driverControlledV2 extends LinearOpMode {
 
             //Arm
             Arm.setPower(gamepad2.left_stick_y);
-            //happy pen
 
             //halve speed
             if (gamepad1.right_bumper) {

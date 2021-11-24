@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ArmIntakeTest extends LinearOpMode {
     private DcMotor LF, RF, LB, RB, Arm, Intake;
+    private int intPos = 20;
 
     public void runOpMode() {
         LF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
@@ -17,16 +18,22 @@ public class ArmIntakeTest extends LinearOpMode {
         RB = hardwareMap.get(DcMotor.class, "motorBackRight");
 
         Arm = hardwareMap.get(DcMotor.class, "poggy");
+        DcMotor.ZeroPowerBehavior.BRAKE;
 
         waitForStart();
 
         //
         while (opModeIsActive()) {
-            if (gamepad1.a) {
-                Arm.setPower(-1);
-            } else if (gamepad1.b) {
+            if (gamepad1.a && intPos <= 135) {
+                intPos += 2;
+            } else if (gamepad1.b && intPos >= 20) {
+                intPos += -2;
+            }
+
+            if ((gamepad1.a && intPos <= 135) ||  (gamepad1.b && intPos >= 20)){
+                Arm.setTargetPosition(intPos);
                 Arm.setPower(1);
-            } else {
+            }else{
                 Arm.setPower(0);
             }
             telemetry.addData("Arm Power:", Arm.getPower());
