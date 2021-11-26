@@ -6,9 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
-
-//blah blah blah
-
 @TeleOp
 public class driverControlledV2 extends LinearOpMode {
     //this compiles on AS so use this exact process when defining motor objects
@@ -29,7 +26,10 @@ public class driverControlledV2 extends LinearOpMode {
         DcMotor Arm = hardwareMap.get(DcMotor.class, "arm");
         DcMotor Carousel = hardwareMap.get(DcMotor.class, "Carousel");
 
+
+        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         waitForStart();
+
 
         if (isStopRequested()) return;
 
@@ -40,8 +40,8 @@ public class driverControlledV2 extends LinearOpMode {
             double y, x, rx;
 
             //carousel
-            if(gamepad2.right_bumper) {
-                Carousel.setPower(1);
+            if (gamepad2.right_bumper) {
+                Carousel.setPower(-0.75);
             }
             else {
                 Carousel.setPower(0);
@@ -52,7 +52,6 @@ public class driverControlledV2 extends LinearOpMode {
 
             //Arm
             Arm.setPower(gamepad2.left_stick_y);
-            //happy pen
 
             //halve speed
             if (gamepad1.right_bumper) {

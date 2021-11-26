@@ -26,14 +26,26 @@ public class AutonomousV1 extends LinearOpMode {
 
         double b = 1;
 
-        move(1, 1, 1, 1, 1000);
-        move(0,0,0,0,0);
+        Arm.setPower(-0.25);
+        sleep(1000);
+
+        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        move(0.75, 0.75, 0.75, 0.75, 800);
+        move(0,0,0,0,500);
+        telemetry.addData("asdf", 8989);
+        telemetry.update();
+        move(-1, 1, -1, 1, 850);
+        move(0,0,0,0,200);
+        move(-1, -1, -1, -1, 5500);
+        move(0,0,0,0,1000);
+
     }
 
     public void move(double LF, double RF, double LB, double RB, int sleepMS) {
         this.LF.setPower(LF);
-        this.RF.setPower(LB);
-        this.LB.setPower(RF);
+        this.LB.setPower(LB);
+        this.RF.setPower(RF);
         this.RB.setPower(RB);
         sleep(sleepMS);
     }
