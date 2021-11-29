@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous
-public class AutonomousV1 extends LinearOpMode {
+public class AutonomousSafe extends LinearOpMode {
     private DcMotor LF, RF, LB, RB, Arm, Intake;
-
     @Override
     public void runOpMode() {
         LF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
@@ -29,15 +28,16 @@ public class AutonomousV1 extends LinearOpMode {
 
         Arm.setPower(-0.25);
 
-        move(0.75, 0.75, 0.75, 0.75, 800);
-        move(0,0,0,0,500);
-        move(-1, 1, -1, 1, 850);
-        move(0,0,0,0,200);
-        move(-1, -1, -1, -1, 5500);
-        move(0,0,0,0,1000);
+        // ultra megasafe backup plan where we park next to carousel
+        move(1, 1, 1, 1, 1000);
+        move(0,0,0,0,100);
+        move(-1, 1, 1, -1, 1200);
+        move(0,0,0,0,100);
+        Intake.setPower(-1);
+        sleep(26000);
+        Intake.setPower(0);
 
     }
-
     public void move(double LF, double RF, double LB, double RB, int sleepMS) {
         this.LF.setPower(LF);
         this.LB.setPower(LB);
@@ -45,6 +45,4 @@ public class AutonomousV1 extends LinearOpMode {
         this.RB.setPower(RB);
         sleep(sleepMS);
     }
-
-
 }

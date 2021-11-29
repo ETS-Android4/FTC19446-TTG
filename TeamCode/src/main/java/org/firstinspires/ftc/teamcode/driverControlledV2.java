@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
+
+//blah blah blah
 
 @TeleOp
 public class driverControlledV2 extends LinearOpMode {
@@ -25,11 +28,9 @@ public class driverControlledV2 extends LinearOpMode {
         DcMotor Intake = hardwareMap.get(DcMotor.class, "poggy");
         DcMotor Arm = hardwareMap.get(DcMotor.class, "arm");
         DcMotor Carousel = hardwareMap.get(DcMotor.class, "Carousel");
+        // Servo shipping = hardwareMap.get(Servo.class, "ship");
 
-
-        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         waitForStart();
-
 
         if (isStopRequested()) return;
 
@@ -40,11 +41,8 @@ public class driverControlledV2 extends LinearOpMode {
             double y, x, rx;
 
             //carousel
-            if (gamepad2.right_bumper) {
-                Carousel.setPower(-0.75);
-            }
-            else {
-                Carousel.setPower(0);
+            if(gamepad2.right_bumper) {
+                Carousel.setPower(1);
             }
 
             //intake
@@ -56,14 +54,14 @@ public class driverControlledV2 extends LinearOpMode {
             //halve speed
             if (gamepad1.right_bumper) {
                 y = -gamepad1.left_stick_y / 2;
-                x = (gamepad1.left_stick_x * 1.1) / 2; // Counteract imperfect strafing
+                x = (gamepad1.left_stick_x * 1.1) / 2;
                 rx = gamepad1.right_stick_x / 2;
             }
 
             //move speed
             else {
                 y = -gamepad1.left_stick_y;
-                x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
+                x = gamepad1.left_stick_x * 1.1;
                 rx = gamepad1.right_stick_x;
             }
 
@@ -84,7 +82,7 @@ public class driverControlledV2 extends LinearOpMode {
             telemetry.addData("RB Power:", motorRB.getPower());
             telemetry.addData( "Intake Power:", Intake.getPower());
             telemetry.addData( "Arm Power: ", Arm.getPower());
-            telemetry.addData("Carousel Turner", Carousel.getPower());
+            // telemetry.addData("Carousel Turner", Carousel);
             telemetry.update();
         }
     }

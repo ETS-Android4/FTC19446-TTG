@@ -6,9 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous
-public class AutonomousV1 extends LinearOpMode {
+public class AutonomousV2 extends LinearOpMode {
     private DcMotor LF, RF, LB, RB, Arm, Intake;
-
     @Override
     public void runOpMode() {
         LF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
@@ -29,15 +28,16 @@ public class AutonomousV1 extends LinearOpMode {
 
         Arm.setPower(-0.25);
 
-        move(0.75, 0.75, 0.75, 0.75, 800);
-        move(0,0,0,0,500);
-        move(-1, 1, -1, 1, 850);
-        move(0,0,0,0,200);
-        move(-1, -1, -1, -1, 5500);
-        move(0,0,0,0,1000);
-
+        // we got trolled by field team because with v1, we will collide with the shipping hub
+        move(-1, 1, -1, 1, 800);
+        move(0,0,0,0,100);
+        move(-1, -1, -1, -1, 1800);
+        move(0,0,0,0,100);
+        move(1, -1, -1, 1, 1000);
+        move(0,0,0,0,100);
+        move(-1, -1, -1, -1, 3500);
+        move(0,0,0,0,100);
     }
-
     public void move(double LF, double RF, double LB, double RB, int sleepMS) {
         this.LF.setPower(LF);
         this.LB.setPower(LB);
@@ -45,6 +45,4 @@ public class AutonomousV1 extends LinearOpMode {
         this.RB.setPower(RB);
         sleep(sleepMS);
     }
-
-
 }
