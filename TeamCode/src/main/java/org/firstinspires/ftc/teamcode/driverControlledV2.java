@@ -30,6 +30,8 @@ public class driverControlledV2 extends LinearOpMode {
         DcMotor Carousel = hardwareMap.get(DcMotor.class, "Carousel");
         // Servo shipping = hardwareMap.get(Servo.class, "ship");
 
+        Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         waitForStart();
 
         if (isStopRequested()) return;
@@ -42,7 +44,9 @@ public class driverControlledV2 extends LinearOpMode {
 
             //carousel
             if(gamepad2.right_bumper) {
-                Carousel.setPower(1);
+                Carousel.setPower(-0.75);
+            } else {
+                Carousel.setPower(0);
             }
 
             //intake
