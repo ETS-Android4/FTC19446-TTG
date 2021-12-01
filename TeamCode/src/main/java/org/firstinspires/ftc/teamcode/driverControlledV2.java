@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
 
 //blah blah blah
@@ -44,7 +43,7 @@ public class driverControlledV2 extends LinearOpMode {
 
             //carousel
             if(gamepad2.right_bumper) {
-                Carousel.setPower(-0.75);
+                Carousel.setPower(-0.625);
             } else {
                 Carousel.setPower(0);
             }

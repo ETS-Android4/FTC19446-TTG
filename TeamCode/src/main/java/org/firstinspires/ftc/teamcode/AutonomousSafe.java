@@ -29,14 +29,16 @@ public class AutonomousSafe extends LinearOpMode {
         Arm.setPower(-0.25);
 
         // ultra megasafe backup plan where we park next to carousel
-        move(1, 1, 1, 1, 100);
+        move(1, 1, 1, 1, 600);
         move(0,0,0,0,100);
         move(-1, 1, 1, -1, 1200);
         move(0,0,0,0,100);
-        move(1, 1, 1, 1, 900);
+        move(1, 1, 1, 1, 400);
         move(0,0,0,0,100);
-        Intake.setPower(1);
-        sleep(26000);
+        Arm.setPower(1);
+        sleep(200);
+        Intake.setPower(0.6);
+        sleep(2000);
         Intake.setPower(0);
 
     }
