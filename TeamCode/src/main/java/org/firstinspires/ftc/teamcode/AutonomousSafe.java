@@ -33,7 +33,7 @@ public class AutonomousSafe extends LinearOpMode {
         move(0,0,0,0,100);
         move(-1, 1, 1, -1, 1200);
         move(0,0,0,0,100);
-        move(1, 1, 1, 1, 400);
+        move(1, 1, 1, 1, 350);
         move(0,0,0,0,100);
         Arm.setPower(1);
         sleep(200);
