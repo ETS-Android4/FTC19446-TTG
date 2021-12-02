@@ -6,14 +6,15 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous
-public class AutonomousSafe extends LinearOpMode {
-    private DcMotor LF, RF, LB, RB, Arm, Intake;
+public class AutonomousSafe2 extends LinearOpMode {
+    private DcMotor LF, RF, LB, RB, Arm, Intake, Carousel ;
     @Override
     public void runOpMode() {
         LF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
         RF = hardwareMap.get(DcMotor.class, "motorFrontRight");
         LB = hardwareMap.get(DcMotor.class, "motorBackLeft");
         RB = hardwareMap.get(DcMotor.class, "motorBackRight");
+        Carousel = hardwareMap.get(DcMotor.class, "Carousel");
 
         Intake = hardwareMap.get(DcMotor.class, "poggy");
         Arm = hardwareMap.get(DcMotor.class, "arm");
@@ -33,8 +34,21 @@ public class AutonomousSafe extends LinearOpMode {
         move(0,0,0,0,100);
         move(-1, 1, 1, -1, 1200);
         move(0,0,0,0,100);
-        move(1, 1, 1, 1, 325);
+        move(-1, -1, -1, -1, 325);
         move(0,0,0,0,100);
+
+        move(1,-1,1,-1,100);
+
+        move(0,0,0,0,100);
+        Carousel.setPower(-0.65/2);
+        sleep(10000);
+
+        move(-1,1,-1,1,150);
+
+        move(1,1,1,1,700);
+        move(0,0,0, 0,100);
+
+
         Arm.setPower(1);
         sleep(200);
         Intake.setPower(0.6);
