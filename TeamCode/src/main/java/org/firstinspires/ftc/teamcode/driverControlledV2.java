@@ -41,7 +41,7 @@ public class driverControlledV2 extends LinearOpMode {
         while (opModeIsActive()) {
             double y, x, rx;
 
-            //carousel
+            // carousel
             if(gamepad2.right_bumper && gamepad2.left_bumper) {
                 Carousel.setPower(-0.65/2);
             }
@@ -52,26 +52,59 @@ public class driverControlledV2 extends LinearOpMode {
                 Carousel.setPower(0);
             }
 
-            //intake
+            // intake
             Intake.setPower(gamepad2.right_stick_y);
 
-            //Arm
+            // arm
             Arm.setPower(gamepad2.left_stick_y);
 
-            //halve speed
+            // halve speed
             if (gamepad1.right_bumper) {
                 y = -gamepad1.left_stick_y / 2;
                 x = (gamepad1.left_stick_x * 1.1) / 2;
                 rx = gamepad1.right_stick_x / 2;
             }
 
-            //move speed
+            // move speed
             else {
                 y = -gamepad1.left_stick_y;
                 x = gamepad1.left_stick_x * 1.1;
                 rx = gamepad1.right_stick_x;
             }
 
+            // dpad to move forward
+            if (gamepad1.dpad_up) {
+                motorLF.setPower(1);
+                motorLB.setPower(1);
+                motorRF.setPower(1);
+                motorRB.setPower(1);
+            }
+
+            // dpad to move backward
+            if (gamepad1.dpad_down) {
+                motorLF.setPower(-1);
+                motorLB.setPower(-1);
+                motorRF.setPower(-1);
+                motorRB.setPower(-1);
+            }
+
+            // dpad to strafe left
+            if (gamepad1.dpad_left) {
+                motorLF.setPower(-1);
+                motorLB.setPower(1);
+                motorRF.setPower(1);
+                motorRB.setPower(-1);
+            }
+
+            // dpad to strafe right
+            if (gamepad1.dpad_right) {
+                motorLF.setPower(1);
+                motorLB.setPower(-1);
+                motorRF.setPower(-1);
+                motorRB.setPower(1);
+            }
+
+            // driving via joystick
             double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
             double frontLeftPower = (y + x + rx) / denominator;
             double backLeftPower = (y - x + rx) / denominator;
@@ -87,9 +120,9 @@ public class driverControlledV2 extends LinearOpMode {
             telemetry.addData("LB Power:", motorLB.getPower());
             telemetry.addData("RF Power:", motorRF.getPower());
             telemetry.addData("RB Power:", motorRB.getPower());
-            telemetry.addData( "Intake Power:", Intake.getPower());
+            telemetry.addData( "\nIntake Power:", Intake.getPower());
             telemetry.addData( "Arm Power: ", Arm.getPower());
-            // telemetry.addData("Carousel Turner", Carousel);
+            telemetry.addData("Carousel Turner", Carousel.getPower());
             telemetry.update();
         }
     }
