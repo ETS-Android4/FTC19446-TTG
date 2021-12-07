@@ -33,7 +33,7 @@ public class AutonomousV3 extends LinearOpMode {
         move(-1, 1, 1, -1, 1200);
         move(0,0,0,0,100);
         // forward
-        move(1, 1, 1, 1, 325);
+        move(1, 1, 1, 1, 355);
         move(0,0,0,0,100);
         // lower arm for intake
         Arm.setPower(1);
@@ -46,7 +46,7 @@ public class AutonomousV3 extends LinearOpMode {
         // raise arm again
         Arm.setPower(-0.25);
         // backward
-        move(-1,-1,-1,-1, 650);
+        move(-1,-1,-1,-1, 800);
         move(0,0,0,0, 100);
         // turn right
         move(1,-1,1,-1,100);
@@ -55,16 +55,16 @@ public class AutonomousV3 extends LinearOpMode {
         Carousel.setPower(-0.65/2);
         sleep(5000);
         // turn left
-        move(-1,1,-1,1,875);
+        move(-1,1,-1,1,985);
         move(0,0,0,0,100);
         // backward
-        move(-1,-1,-1,-1,700);
-        move(0,0,0, 0,3200);
+        move(-1,-1,-1,-1,3200);
+        move(0,0,0, 0,100);
         // go right
-        move(1,-1,-1,1, 500);
+        move(1,-1,-1,1, 775);
         move(0,0,0,0,100);
         // backward
-        move(-1,-1,-1, -1, 800);
+        move(-1,-1,-1, -1, 1200);
         move(0,0,0, 0, 100);
 
 

@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Autonomous
-public class AutonomousSafeV2 extends LinearOpMode {
-    private DcMotor LF, RF, LB, RB, Arm, Intake, Carousel ;
+public class AutonomousV4 extends LinearOpMode {
+    private DcMotor LF, RF, LB, RB, Arm, Intake, Carousel;
     @Override
     public void runOpMode() {
         LF = hardwareMap.get(DcMotor.class, "motorFrontLeft");
@@ -26,34 +26,31 @@ public class AutonomousSafeV2 extends LinearOpMode {
 
         // raise arm to prevent it from dragging across floor
         Arm.setPower(-0.25);
-
-        // forward
-        move(1, 1, 1, 1, 600);
-        move(0,0,0,0,100);
-        // go left
-        move(-1, 1, 1, -1, 1200);
-        move(0,0,0,0,100);
         // backward
-        move(-1, -1, -1, -1, 325);
-        move(0,0,0,0,100);
-        // turn right
-        move(1,-1,1,-1,100);
+        move(-1, -1, -1, -1, 300);
         move(0,0,0,0,100);
         Carousel.setPower(-0.65/2);
         sleep(5000);
         // turn left
-        move(-1,1,-1,1,150);
+        move(-1,1,-1,1,375);
         // forward
-        move(1,1,1,1,700);
+        move(1,1,1,1,1300);
         move(0,0,0, 0,100);
-        // lower arm for intake
-        Arm.setPower(1);
-        sleep(200);
+        // raise arm for intake
+        Arm.setPower(-0.3);
         // push freight out
-        Intake.setPower(0.6);
+        Intake.setPower(1);
         sleep(2000);
         // stop intake
         Intake.setPower(0);
+        // backward
+        move(-1,-1,-1,-1, 350);
+        move(0,0,0,0,100);
+        // turn left
+        move(-1,1,-1,1, 1400);
+        move(0,0,0,0, 100);
+        // backward
+        move(-1,-1,-1,-1, 7000);
 
 
     }
