@@ -42,7 +42,7 @@ public class driverControlledV2 extends LinearOpMode {
             double y, x, rx;
 
             // carousel
-            if(gamepad2.right_bumper && gamepad2.left_bumper) {
+            if (gamepad2.right_bumper && gamepad2.left_bumper) {
                 Carousel.setPower(-0.65/2);
             }
             else if (gamepad2.right_bumper) {
