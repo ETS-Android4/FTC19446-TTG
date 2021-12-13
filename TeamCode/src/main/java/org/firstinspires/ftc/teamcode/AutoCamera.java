@@ -35,6 +35,7 @@ public class AutoCamera extends LinearOpMode {
                 else if (ticks > 30 && ticks <=60) level = 1;
                 else if (ticks > 60 && ticks <= 90) level = 2;
             }
+
         }
 
     }
@@ -98,7 +99,7 @@ public class AutoCamera extends LinearOpMode {
         // turn left
         move(-1,1,-1,1,200);
         // forward
-        move(1,1,1,1,1400);
+        move(1,1,1,1,1700);
         move(0,0,0, 0,100);
         // raise arm for intake
 
@@ -119,7 +120,7 @@ public class AutoCamera extends LinearOpMode {
         move(-1,-1,-1,-1, 350);
         move(0,0,0,0,100);
         // turn left
-        move(-1,1,-1,1, 1300);
+        move(-1,1,-1,1, 1350);
         move(0,0,0,0, 100);
         // backward
         move(-1,-1,-1,-1, 6500);
