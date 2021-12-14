@@ -99,7 +99,7 @@ public class AutoCamera extends LinearOpMode {
         // turn left
         move(-1,1,-1,1,200);
         // forward
-        move(1,1,1,1,1700);
+        move(1,1,1,1,1675);
         move(0,0,0, 0,100);
         // raise arm for intake
 
@@ -120,7 +120,7 @@ public class AutoCamera extends LinearOpMode {
         move(-1,-1,-1,-1, 350);
         move(0,0,0,0,100);
         // turn left
-        move(-1,1,-1,1, 1350);
+        move(-1,1,-1,1, 1300);
         move(0,0,0,0, 100);
         // backward
         move(-1,-1,-1,-1, 6500);
