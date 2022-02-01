@@ -17,7 +17,7 @@ import java.util.TimerTask;
 import java.util.List;
 
 @Autonomous
-public class AutoCamera extends LinearOpMode {
+public class AutoCam2 extends LinearOpMode {
     private DcMotor LF, RF, LB, RB, Arm, Intake, Carousel;
     private Timer time = new Timer();
     private VuforiaCurrentGame vuforiaFreightFrenzy;
@@ -60,20 +60,19 @@ public class AutoCamera extends LinearOpMode {
         // camera initialization
         vuforiaFreightFrenzy = new VuforiaCurrentGame();
         tfodFreightFrenzy = new TfodCurrentGame();
+        // testing initialzation function that takes direction over a camera name + calibration file
         vuforiaFreightFrenzy.initialize(
                 "", // vuforiaLicenseKey
-                hardwareMap.get(WebcamName.class, "Webcam 1"), // Change this to the camera name, default "Webcam 1"
-                "", // webcamCalibrationFilename
+                VuforiaLocalizer.CameraDirection.FRONT, // Change this to the camera name, default "Webcam 1"
                 true, // useExtendedTracking
                 false, // enableCameraMonitoring
-                VuforiaLocalizer.Parameters.CameraMonitorFeedback.NONE, // cameraMonitorFeedback
+                VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES, // cameraMonitorFeedback
                 0, // dx
                 0, // dy
                 0, // dz
-                AxesOrder.XZY, // axesOrder
-                90, // firstAngle
-                90, // secondAngle
-                0, // thirdAngle
+                0, // x rotation on robot
+                0, // y rotation on robot
+                0, // z rotation on robot
                 true); // useCompetitionFieldTargetLocations
         // Set min confidence threshold to 0.7
         tfodFreightFrenzy.initialize(vuforiaFreightFrenzy, (float) 0.7, true, true);
@@ -82,7 +81,6 @@ public class AutoCamera extends LinearOpMode {
         // in the Camera Stream preview window on the Driver Station.
         tfodFreightFrenzy.activate();
         // Enable following block to zoom in on target.
-        tfodFreightFrenzy.setZoom(1, 16 / 9);
 
         waitForStart();
 
