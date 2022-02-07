@@ -18,13 +18,13 @@ import java.util.List;
 
 @Autonomous
 public class AutoCam2 extends LinearOpMode {
-    private DcMotor LF, RF, LB, RB, Arm, Intake, Carousel;
-    private Timer time = new Timer();
+    private DcMotor LF, RF, LB, RB, Arm, Intake, Carousel, Turret;
+    //private Timer time = new Timer();
     private VuforiaCurrentGame vuforiaFreightFrenzy;
-    static private TfodCurrentGame tfodFreightFrenzy;
-    static private List<Recognition> recs;
-    static int ticks = 0, level = -1;
-
+    private TfodCurrentGame tfodFreightFrenzy;
+    private List<Recognition> recs;
+    //static int ticks = 0, level = -1;
+    /*
     class Event extends TimerTask {
         public void run() {
             recs = tfodFreightFrenzy.getRecognitions();
@@ -42,6 +42,7 @@ public class AutoCam2 extends LinearOpMode {
         }
 
     }
+     */
 
     @Override
     public void runOpMode() {
@@ -52,10 +53,12 @@ public class AutoCam2 extends LinearOpMode {
         Carousel = hardwareMap.get(DcMotor.class, "Carousel");
         Intake = hardwareMap.get(DcMotor.class, "poggy");
         Arm = hardwareMap.get(DcMotor.class, "arm");
+        Turret = hardwareMap.get(DcMotor.class, "Turret");
 
         LB.setDirection(DcMotorSimple.Direction.REVERSE);
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         Arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Turret.setDirection(DcMotorSimple.Direction.REVERSE);
 
         // camera initialization
         vuforiaFreightFrenzy = new VuforiaCurrentGame();
@@ -63,19 +66,21 @@ public class AutoCam2 extends LinearOpMode {
         // testing initialzation function that takes direction over a camera name + calibration file
         vuforiaFreightFrenzy.initialize(
                 "", // vuforiaLicenseKey
-                VuforiaLocalizer.CameraDirection.FRONT, // Change this to the camera name, default "Webcam 1"
+                hardwareMap.get(WebcamName.class, "Webcam 1"), // Change this to the camera name, default "Webcam 1"
+                "", // webcamCalibrationFilename
                 true, // useExtendedTracking
                 false, // enableCameraMonitoring
-                VuforiaLocalizer.Parameters.CameraMonitorFeedback.AXES, // cameraMonitorFeedback
+                VuforiaLocalizer.Parameters.CameraMonitorFeedback.NONE, // cameraMonitorFeedback
                 0, // dx
                 0, // dy
                 0, // dz
-                0, // x rotation on robot
-                0, // y rotation on robot
-                0, // z rotation on robot
+                AxesOrder.XZY, // axesOrder
+                90, // firstAngle
+                90, // secondAngle
+                0, // thirdAngle
                 true); // useCompetitionFieldTargetLocations
-        // Set min confidence threshold to 0.7
-        tfodFreightFrenzy.initialize(vuforiaFreightFrenzy, (float) 0.7, true, true);
+        // Set min confidence threshold to 0.3
+        tfodFreightFrenzy.initialize(vuforiaFreightFrenzy, (float) 0.3, true, true);
         // Initialize TFOD before waitForStart.
         // Init TFOD here so the object detection labels are visible
         // in the Camera Stream preview window on the Driver Station.
@@ -84,50 +89,112 @@ public class AutoCam2 extends LinearOpMode {
 
         waitForStart();
 
-        time.scheduleAtFixedRate(new Event(), 1, 100);
+        Arm.setPower(-0.5);
+        sleep(500);
+        Arm.setPower(0);
 
-        // raise arm to prevent it from dragging across floor
-        Arm.setPower(-0.25);
-        // turn left
-        move(-1, 1, -1, 1, 100);
-        move(0,0,0,0, 100);
-        // backward
-        move(-1,-1,-1,-1,15);
-        move(0,0,0,0,100);
-        Carousel.setPower(-0.65/2);
-        sleep(5000);
+        recs = tfodFreightFrenzy.getRecognitions();
 
-        // turn left
-        move(-1,1,-1,1,200);
-        // forward
-        move(1,1,1,1,1700);
-        move(0,0,0, 0,100);
-        // raise arm for intake
-
-        if (level==0||level==-1) {
-            Arm.setPower(-0.25);
-        } else if (level==1) {
-            Arm.setPower(-0.5);
-        } else if (level == 2) {
-            Arm.setPower(-0.7);
+        // shipping hub level
+        int level = -1;
+        int leave = 0;
+        while (recs.size()==0) {
+            recs = tfodFreightFrenzy.getRecognitions();
+            telemetry.addData("detections: ", recs);
+            if (recs.size()>0) {
+                boolean n600 = false;
+                for (int i=0;i<recs.size();i++) {
+                    int right = (int)recs.get(i).getRight();
+                    String lbl = recs.get(i).getLabel();
+                    if (right>0&&right<300) {
+                        n600 = true;
+                        level = 1;
+                    } else if (right>300&&right<600) {
+                        n600 = true;
+                        level = 2;
+                    } else if (right>600&&recs.size()==1) {
+                        recs.clear();
+                        leave++;
+                    }
+                }
+                if (leave>100) break;
+                if (!n600) {
+                    level = 3;
+                }
+            }else{
+                telemetry.addData("NO DETECTIONS :P","");
+            }
+            telemetry.update();
         }
+
+        //time.scheduleAtFixedRate(new Event(), 1, 100);
+
+        Arm.setPower(0);
+
+        // backward
+        move(-1,-1,-1,-1,430);
+        move(0,0,0,0,100);
+        // spin carousel
+        Carousel.setPower(-0.8/2);
+        sleep(4000);
+        Carousel.setPower(0);
+
+        // left strafe
+        move(-1, 1, 1, -1, 300);
+        move(0, 0, 0, 0, 100);
+        // forward
+        move(1,1,1,1,2000);
+        move(0,0,0, 0,100);
+
+        // strafe correction (left turn)
+        move(-1, 1, -1, 1, 15);
+        move(0, 0, 0, 0, 100);
+
+        // raise arm for intake
+        // arm level to load freight
+        if (level==1) {
+            move(-1, 1, 1, -1, 800);
+            move(0, 0, 0, 0, 100);
+            Arm.setPower(-0.5);
+            sleep(750);
+        } else if (level==2) {
+            // strafe to shipping hub
+            move(-1, 1, 1, -1, 700);
+            move(0, 0, 0, 0, 100);
+            Arm.setPower(-0.5);
+            sleep(1800);
+        } else if (level == 3||level==-1) {
+            // strafe to shipping hub
+            move(-1, 1, 1, -1, 750);
+            move(0, 0, 0, 0, 100);
+            Arm.setPower(-0.5);
+            sleep(2500);
+        }
+
+        telemetry.addData("level", level);
+        telemetry.update();
+
         // push freight out
         Intake.setPower(1);
-        sleep(2000);
-        // stop intake
+        Arm.setPower(0);
+        sleep(1000);
+        // stop intake & drop arm
         Intake.setPower(0);
-        Arm.setPower(-0.25);
+        Arm.setPower(0.25);
+        sleep(500);
 
-        // backward
-        move(-1,-1,-1,-1, 350);
-        move(0,0,0,0,100);
-        // turn left
-        move(-1,1,-1,1, 1350);
-        move(0,0,0,0, 100);
-        // backward
-        move(-1,-1,-1,-1, 6500);
-
-
+        // strafe into wall and park in shipping hub (and move arm forwards)
+        Arm.setPower(-0.5);
+        sleep(600);
+        Turret.setPower(0.5);
+        move(1, -1, -1, 1, 1200);
+        move(0, 0, 0, 0, 100);
+        Turret.setPower(0.2);
+        Arm.setPower(0.25);
+        move(1, 1, 1, 1, 2500);
+        move(0, 0, 0, 0, 100);
+        Arm.setPower(0);
+        Turret.setPower(0);
     }
 
     public void move(double LF, double RF, double LB, double RB, int sleepMS) {
